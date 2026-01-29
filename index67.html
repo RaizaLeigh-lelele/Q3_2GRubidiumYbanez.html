@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Centralized Club Application Form</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #924e49;
+      padding: 30px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    fieldset {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #cea2a2;
+    }
+
+    legend {
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #b39898;
+      border-radius: 4px;
+    }
+
+    input[type="radio"] {
+      width: auto;
+      margin-right: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+    }
+  </style>
+
+  <script>
+    function confirmSubmit() {
+      if (!confirm("Are you sure you want to submit this application?")) {
+        return false;
+      }
+
+      let signUps = JSON.parse(localStorage.getItem("signUps")) || [];
+
+      const form = document.forms[0];
+
+      const newSignup = {
+        student_id: form.student_id.value,
+        full_name: form.full_name.value,
+        birthday: form.birthday.value,
+        email: form.email.value,
+        mobile: form.mobile.value,
+        grade_level: form.grade_level.value,
+        status: form.status.value,
+        club: form.club.value,
+        reason: form.reason.value
+      };
+
+      signUps.push(newSignup);
+      localStorage.setItem("signUps", JSON.stringify(signUps));
+
+      alert("Sign-up saved successfully.");
+      form.reset();
+
+      return false;
+    }
+
+    function goToView() {
+      window.location.href = "viewSignUps.html";
+    }
+  </script>
+</head>
+
+<body>
+
+<form method="post" onsubmit="return confirmSubmit()">
+
+  <fieldset>
+    <legend>Student Information</legend>
+
+    <label>
+      Student ID:
+      <input type="number" name="student_id" required>
+    </label>
+
+    <label>
+      Full Name:
+      <input type="text" name="full_name" required>
+    </label>
+
+    <label>
+      Birthday:
+      <input type="date" name="birthday" required>
+    </label>
+
+    <label>
+      Email Address:
+      <input type="email" name="email" required>
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Application Details</legend>
+
+    <label>
+      Mobile Phone:
+      <input type="text" name="mobile" required>
+    </label>
+
+    <label>
+      Grade Level:
+      <select name="grade_level" required>
+        <option value="">-- Select Grade Level --</option>
+        <option value="Grade 7">Grade 7</option>
+        <option value="Grade 8">Grade 8</option>
+        <option value="Grade 9">Grade 9</option>
+        <option value="Grade 10">Grade 10</option>
+        <option value="Grade 11">Grade 11</option>
+        <option value="Grade 12">Grade 12</option>
+      </select>
+    </label>
+
+    <label>
+      Intern / Extern:
+      <br>
+      <input type="radio" name="status" value="Intern" required> Intern
+      <input type="radio" name="status" value="Extern" required> Extern
+    </label>
+
+    <label>
+      Preferred Organization / Club:
+      <select name="club" required>
+        <option value="">-- Select Organization --</option>
+        <option value="XYZ">XYZ</option>
+        <option value="Likha">Likha</option>
+        <option value="Allianti">Allianti</option>
+        <option value="Himig">Himig</option>
+        <option value="Sapienara">Sapienara</option>
+      </select>
+    </label>
+
+    <label>
+      Why do you want to join:
+      <textarea name="reason" rows="4" required></textarea>
+    </label>
+  </fieldset>
+
+  <div class="buttons">
+    <button type="submit">Submit</button>
+    <button type="button" onclick="goToView()">View Signups</button>
+  </div>
+
+</form>
+
+</body>
+</html>
